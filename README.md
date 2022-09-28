@@ -1,6 +1,5 @@
 # minix-1-documentation-and-change-politcs
 Official MINIX sources - Automatically replicated from gerrit.minix3.org
-
 <h1 align="center"> 
  MINIX 3 | Guia
 </h1>
@@ -224,16 +223,138 @@ O ambiente disponibilizado para a execução do Minix é uma console texto sem n
 O VIM é um editor de texto. Ele é uma evolução de um outro editor bastante conhecido no mundo UNIX, o vi. Apesar de parecer rudimentar ele oferece uma série de funcionalidades bastante úteis. A grande vantagem de se conhecer um editor de textos como o vi é pode interagir com um sitema instalado quando a interface gráfica, por uma ou outra razão, não funciona. Normalmente, para repará-la, é necessário editar arquivos de configuração. Por tanto, o vi (e similares) resta como a única alternativa (Em caso de dúvida de sua utilidade, pergunte a um administrador de redes competente).
 
 ## Processos
-
+THOMÁS ( EM ANDAMENTO )
 ## Gerenciamento de Memória
 
 ## Sistema de Arquivos
 
+Um processo executando armazena informações, porém esta informação é perdida quando o processo termina. Assim, a gravação destas informações na forma de arquivos garante que elas possam ser lidas e utilizadas posteriormente por outros processos. Ou seja, os arquivos são uma forma de armazenar as informações em disco, para utilização futura.
+
+<h3>Conceitos iniciais</h3>
+
+Arquivos comuns contém informações do usuário. Diretórios são arquivos de sistema para manter a estrutura do sistema de arquivos. Arquivos especiais de caracteres relacionam-se com a entrada/saída e são utilizados para modelar dispositivos de entrada/saída seriais como terminais, impressoras e redes.
+
+Os arquivos mais comuns são ASCII e binários. Os arquivos ASCII possuem a vantagem de que podem ser exibidos e impressos como são, além de poderem ser editados com um editor de texto comum. Assim, quando vários programas utilizam arquivos ASCII, torna-se possível conectar a saída de um com a entrada de outro, como, por exemplo, em pipelines.
+
+O sistema de arquivos no Minix funciona como um servidor de arquivos que é executado na própria máquina do usuário. Ele possui 39 tipos de mensagens para solicitar trabalho. Quando chega uma mensagem, é obtido o seu “tipo” para que seja chamado o procedimento adequado para este trabalho.
+
+<h3>Arquivos</h3>
+
+Este sistema de arquivos utiliza a estrutura de nó-i, que armazena os atributos e as localizações dos blocos de dados. Os primeiros endereços de disco ficam armazenados no próprio nó-i, assim, todas as informações de um arquivo pequeno estão diretamente no nó-i. Porém, quando há arquivos maiores, é necessário utilizar um dos endereços do nó-i para endereçar um “bloco indireto simples”. Caso o arquivo seja muito grande, também está disponível um “bloco indireto duplo” e um “triplo”, conforme mostra a Figura 1 a seguir.
+
+![imagem-processo-arquivo](https://deinfo.uepg.br/~alunoso/2019/SO/MINIX/ARQUIVO/images/no-i.png)
+
+Cada sistema de arquivos começa com um bloco de inicialização, que contém o código a ser executado quando o computador é ligado. Além disso, existe o superbloco, que armazena as informações que descrevem a organização do sistema de arquivos, conforme mostra a Figura 2 a seguir.
+
+![](https://deinfo.uepg.br/~alunoso/2019/SO/MINIX/ARQUIVO/images/org-disco.png)
+
+![](https://deinfo.uepg.br/~alunoso/2019/SO/MINIX/ARQUIVO/images/mapa-bits.png)
+
+Utilizando um mapa de bits (Figura 3), o Minix controla quais nós-i e zonas estão livres. Se um arquivo é removido, o sistema procura o bloco do mapa de bits que corresponde ao nó-i e configura ele como 0. Quando um arquivo é criado, o sistema procura o primeiro nó-i livre nos blocos do mapa de bits. O superbloco possui um campo que aponta para o primeiro nó-i livre. Se nenhum nó-i estiver livre, é retornado valor 0.
+
+Quando um arquivo é aberto, é necessário localizar seu nó-i para que ele seja carregado na tabela “inode” na memória, sendo removido quando o arquivo for fechado. As informações desta tabela permitem ao sistema de arquivos saber onde regravar o arquivo, caso seja modificado. A tabela também tem um contador, para guardar quantas vezes o arquivo for aberto, porém apenas uma cópia é mantida na memória. O nó-i também guarda informações sobre qual é o tipo do arquivo.
+
+O sistema Minix usa um "cache" de blocos para melhorar o desempenho do seu sistema de arquivos. Este "cache" é feito com uma matriz de buffers, onde cada um possui um cabeçalho com ponteiros, contadores e sinalizadores. Os “buffers” que não estão sendo utilizados são colocados em uma lista duplamente encadeada, do mais para o menos recentemente utilizado. Também é utilizada uma tabela “hash” para saber se um bloco está ou não no "cache".
+
+Quando o sistema de arquivos deseja acessar um bloco, ele chama o procedimento "get_block", juntamente com um número de dispositivo e um número de bloco. Se um buffer com o bloco é encontrado, incrementa-se o contador no cabeçalho, mostrando que ele está em uso, e retorna um ponteiro para ele. Se o bloco não é encontrado, pode-se utilizar o primeiro “buffer” livre. Se o bloco foi modificado, quando o sistema remover ele, deve gravá-lo no disco.
+
+Quando o procedimento que estava usando o bloco termina, ele chama o procedimento "put_block", que libera o bloco (ou decrementa o contador, caso o bloco tenha sido aberto mais vezes). Se ele for removido, é gravado no disco. Se ocorrer a chamada de sistema SYNC, mesmo se o bloco não foi removido, mas foi modificado, ele é gravado no disco.
+
+<h3>Diretórios</h3>
+
+Um diretório no sistema Minix corresponde a um arquivo com entradas de 16 bytes, onde os dois primeiros formam o número do nó-i de 16 bits (1 byte = 8 bits, logo, 2 bytes = 16 bits) e os outros 14 bytes correspondem ao nome do arquivo.
+
+![](https://deinfo.uepg.br/~alunoso/2019/SO/MINIX/ARQUIVO/images/diretorio.png)
+
+Quando um arquivo é aberto, é retornado um descritor de arquivo (file descriptor) para ser utilizado pelas chamadas READ e WRITE. O número do descritor de arquivo (que é um dos campos da tabela de processos) indexa uma matriz, que é usada para localizar o arquivo correspondente ao descritor de arquivo informado.
+
+Não podemos fazer uma entrada dessa matriz apontar diretamente para o nó-i do arquivo. É necessário utilizar uma nova tabela compartilhada, chamada "filp", onde estão todas as posições de arquivo (convém também colocar nesta tabela o ponteiro de nó-i). Assim, a matriz indexada pelo descritor de arquivo contém apenas um ponteiro para uma entrada na tabela "filp".
+
+O sistema Minix também utiliza outra tabela, chamada "file_lock", para guardar o registro de todos os bloqueios. Cada uma das entradas da tabela indica se o arquivo está bloqueado para escrita ou leitura, o ponteiro para o nó-i do arquivo, o ID do processo que bloqueou, e os deslocamentos do primeiro e último bytes bloqueados.
+
+Quando um processo tentar ler ou gravar em um "pipe" ("pipeline" ou canalização), o sistema de arquivos do Minix verifica o estado do "pipe" e, se a operação não pode ser feita, o sistema de arquivos registra os parâmetros da chamada de sistema na tabela de processos para reiniciar este processo quando for possível.
+
+Em relação aos terminais e arquivos especiais de caracteres, o nó-i de cada arquivo especial possui dois números: o dispositivo principal, que indica a classe do dispositivo, por exemplo: disquete, terminal, disco rígido, disco de RAM; e o dispositivo secundário, que indica qual dispositivo deve ser usado.
+
 ## Entrada e Saída (E/S)
+
+Uma das funções principais de um sistema operacional é controlar todos os dispositivos de entrada e saída de um computador, tratar erros, interceptar interrupções, fornecer uma interface entre o dispositivo e o sistema, emitir comandos para os dispositivos.
+
+<h3>Módulos de entrada e saída</h3>
+
+Um módulo de entrada e saída é a entidade dentro de um computador responsável pelo controle de um ou mais dispositivos externos e pela transferência de dados entre aqueles dispositivos e a memória principal e os registos da CPU. Assim, o módulo de E/S tem de ter uma interface interno ao computador (da CPU e a memória principal) e uma interface externa para o computador (ao dispositivo externo). As categorias principais de funções ou requisitos para um módulo de E/S caem dentro das seguintes:
+
+* Temporização e controle
+* Comunicação com o processador
+* Comunicação com dispositivos
+* Armazenamento temporário dos dados
+* Detecção de erros
+
+Durante qualquer período de tempo, a CPU pode comunicar com um ou mais dispositivos externos de forma imprevisível, dependendo das necessidades de E/S. Os recursos internos, tais como, a memória principal e o barramento de sistema, têm de ser partilhados entre um certo número de atividade incluindo o processamento de informação de E/S. Assim, a função de E/S inclui um requisito de temporização e controle, para controlar o fluxo de tráfego entre os recursos internos e os dispositivos externos.<p>
+
+<strong>A comunicação com a CPU envolve:</strong>
+
+Descodificação de Comandos: O módulo de E/S aceita comandos da CPU. Estes comandos são geralmente enviados como sinais no barramento de controle.
+
+Dados: Os dados são trocados entre a CPU e o módulo de E/S através do barramento de dados.
+
+Relato de status: Uma vez que os periféricos são lentos, é importante saber o estado do módulo de E/S.
+
+Detecção de Erros: Cada dispositivo de E/S possui um endereço, tal como acontece com cada palavra na memória. Assim, um módulo de E/S tem de reconhecer um único endereço para cada periférico sobre o seu controlo. Numa outra perspectiva, o módulo de E/S tem de ser capaz de efetuar comunicação com o dispositivo. Esta comunicação envolve comandos.
+	
+<h3>Dispositivos de E/S</h3>
+
+Os dispositivos de E/S podem ser divididos, genericamente, em duas categorias: dispositivos de bloco e dispositivos de caractere.
+
+<h3>Dispositivos de Bloco</h3>
+
+Dispositivos de blocos, são todos os dispositivos que podem enviar/transmitir dados em blocos de tamanho fixo. Um exemplo de dispositivo de bloco, é o HD.
+
+<h3>Dispositivos de caractere</h3>
+
+O dispositivo de caractere não utiliza estrutura de blocos nem posicionamento. No dispositivo de caractere ele recebe um fluxo de caracteres, além de não ser endereçável.
+
+<h3>Controladoras de Dispositivo</h3>
+
+As unidades de E/S geralmente consistem em um componente mecânico e em outro eletrônico. É possível separar as duas partes para oferecer um projeto mais modular e genérico. Em computadores pessoais, esse frequentemente toma a forma de uma placa de circuito impresso.
+
+![](https://deinfo.uepg.br/~alunoso/2019/SO/MINIX/DISPOSITIVOS/site%20rea/barramento.png)
+
+O trabalho da controladora é converter o fluxo serial de bits em um bloco de bytes e executar qualquer correção de erro necessária. O bloco de bytes tipicamente é primeiro montado, bit por bit, em um buffer dentro da controladora. Depois que sua soma de verificação foi verificada e o bloco foi declarado livre de erros, ele pode, então, ser copiado para a memoria principal. Cada controladora tem alguns registradores que são utilizados para comunicar-se com a cpu. Em alguns computadores, esses registradores são parte do espaço normal de endereçamento de memoria. Esse esquema é chamado E/S mapeada em memoria.
+
+<h3>Acesso direto a memória (DMA)</h3>
+
+Não importa se a CPU tem ou não E/S mapeada na memoria, ela precisa endereçar os controladores dos dispositivos para poder trocar dados com eles. A CPU pode requisitar dados de um controlador de E/S, um byte de cada vez, mas desperdiça muito tempo, de modo que um esquema diferente (DMA) seja usado.
+
+O controlador de DMA tem acesso ao barramento do sistema. Eles contem vários registradores que podem ser lidos ou escritos na CPU, os quais possuem registrador de endereço de memoria, registrador de controle e registrador de contador de bytes.
+
+O controlador lê um bloco do dispositivo, bit a bit, até que todo bloco esteja no buffer do controlador. Em seguida, ele calcula a soma de verificação, para constatar de que não houve algum erro de leitura. Então, o controlador causa uma interrupção. Quando o S.O inicia o atendimento, ele pode ler o bloco do disco a partir do buffer do controlador. Um bloco de byte ou uma palavra é lida no registrador do controlador e armazenada na memoria principal.
+
+<h3>Software de entrada e saída</h3>
+
+Um conceito-chave no projeto de software de E/S é conhecido como independência de dispositivo. Isso significa que deve ser possível escrever programas que podem ler arquivos em um disquete, em um disco rígido ou em um CDROM, sem que seja necessário modificar os programas para cada tipo de dispositivo diferente. Outra questão importante para o software de E/S é o tratamento de erros. Em geral devem ser tratados o mais perto possível do hardware. Se a controladora descobrir um erro de leitura, ela devera tentar corrigir o erro se puder. Se não puder, então o driver de dispositivo devera tratá-lo, talvez tentando simplesmente ler o bloco novamente.
+
+<h3>Manipulação de interrupções</h3>
+
+Interrupções é uma realidade desagradável. Elas devem ser escondidas longe, no fundo das entranhas do sistema operacional, de modo que o mínimo possível do sistema saiba sobre elas. A melhor maneira de oculta-las é ter cada processo que inicia uma operação de E/S bloqueado ate que a E/S tenha-se completado e a interrupção tenha ocorrido. O processo pode bloquear-se fazendo um dowx em um semáforo. Um wait em uma variável de condição ou um receive em uma mensagem, por exemplo. Quando as interrupções acontecem, o procedimento de interrupção faz o que tem de fazer para desbloquear o processo que iniciou a E/S em alguns sistemas, ele fara um UP em um semáforo. Em outros, ele fara um sinal em uma variável de condição em um monitor. Em outros, ainda, ele enviara uma mensagem para o processo bloqueando. Em todos casos, o efeito geral da interrupção será que um processo que anteriormente estava bloqueado agora será capaz de executar.
+
+<h3>Impasses</h3>
+
+Os sistemas de computador estão repletos de recursos que podem ser utilizados apenas por um processo por vez. Ter dois processos simultaneamente gravando na impressora resulta em uma confusão. Portanto, todos os sistemas operacionais têm a capacidade de temporariamente conceder acesso exclusivo a certo recursos para um processo.
+
+<h3>Recursos</h3>
+
+dispositivos, a arquivos, etc. Os recursos dividem-se em dois tipos: preemptivel e não preempetivel. Um recurso preempetivel é aquele que pode ser tirado do processo que é proprietário dele sem nenhum problema. A memoria é um exemplo de um recurso preemptivel.
+
+<h3>Entrada e saída MINIX</h3>
+
+No Minix, drivers de entrada e saída são feitos com passagem de mensagens, de forma que rodem em modo usuário e se comuniquem com o kernel. Isso garante que um driver tenha limites quanto ao que pode fazer e aumente a estabilidade do sistema.
+
 
 ## Referências
 
-<h1></h1>
+* http://minix3.org/doc/ (documentação oficial) [1]
+* https://deinfo.uepg.br/~alunoso/2019/SO/MINIX/DISPOSITIVOS/site%20rea/#:~:text=Entrada%20e%20saida%20minix%20No%20Minix%2C%20drivers%20de,pode%20fazer%20e%20aumente%20a%20estabilidade%20do%20sistema. [2]
 	
 #### Autores
 	
@@ -241,3 +362,4 @@ O VIM é um editor de texto. Ele é uma evolução de um outro editor bastante c
 - Leonardo de Oliveira Campos
 - Lucas Ribeiro Silva
 - Thomás Teixeira Pereira
+

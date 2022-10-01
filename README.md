@@ -245,7 +245,7 @@ Para trabalhar com processos, o Minix 3 oferta duas chamadas de sistemas princip
 A comunicação entre processos ocorre em três primitivas, send, receive e sendrec, sendo que cada uma recebe dois parâmetros ( um contendo o processo destino/origem e o segundo o local de memória que contém a informação da mensagem ). 
 Em relação a troca de mensagem, o MINIX 3 utiliza uma técnica chamada rendezvous. Essa técnica permite que quando um processo A envia uma mensagem para o processo B, o processo A ficará bloqueado até que o processo B recebe a mensagem, sendo desnecessário o uso de buffer para controle de mensagem, pois todas as mensagens possuem um tamanho fixo e erros de estouro de buffer são prevenidos.
 
-<h3> Escalonador: <h3>
+<h3> Escalonador: </h3>
 	
 - No MINIX 3 o escalonador trabalha em um sistema de filas em multi-níveis, são dezesseis filas com prioridades definidas pelo sistema. A camada de prioridade mais baixa é utilizada em processos de segundo plano, sendo executados apenas quando não há  processos de níveis de prioridades maiores, nos quais são os de camadas mais inferiores. 
 * Os processos de  Serves possuem prioridade acima dos processos de usuários e os processos de Drivers possuem prioridade acima dos de Servers e os processos do Kernel ocupam a fila de maior prioridade. Os processos podem se mover entre as filas (filas essas que não são estáticas) utilizando o mesmo comando nice que contém nos sistemas UNIX

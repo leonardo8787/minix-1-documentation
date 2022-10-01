@@ -223,7 +223,28 @@ O ambiente disponibilizado para a execução do Minix é uma console texto sem n
 O VIM é um editor de texto. Ele é uma evolução de um outro editor bastante conhecido no mundo UNIX, o vi. Apesar de parecer rudimentar ele oferece uma série de funcionalidades bastante úteis. A grande vantagem de se conhecer um editor de textos como o vi é pode interagir com um sitema instalado quando a interface gráfica, por uma ou outra razão, não funciona. Normalmente, para repará-la, é necessário editar arquivos de configuração. Por tanto, o vi (e similares) resta como a única alternativa (Em caso de dúvida de sua utilidade, pergunte a um administrador de redes competente).
 
 ## Processos
-THOMÁS ( EM ANDAMENTO )
+
+MINIX usa uma abordagem de microkernel, que implementa somente mecanismos mais básicos, como o de gerenciamento de processos, comunicação entre processos, escalonamento de processos e algumas system calls disponíveis aos servidores e drivers. 
+Assim, temos no MINIX uma quantidade bem pequena de processos que são executados em modo de kernel, sendo grande parte do seu sistema executado em modo de usuário. Diferente do Linux que tendo um kernel monolítico realiza uma grande quantidade de funções em modo kernel.
+Para o MINIX então, o escalonador de processos de usuário tem uma importância extra já que terá que lidar com uma quantidade bem maior do que o escalonador de processos de kernel. 
+
+![minix](https://user-images.githubusercontent.com/78819692/193430338-d7040c92-9629-4d39-8a3c-b86546ecb60d.png)
+- Modelo em camadas do MINIX
+
+Como visto na imagem acima, servidores e drivers são processos que rodam em nível de usuário, sendo assim possível que eles se comuniquem com o kernel e os demais processos de usuários se comunicarem apenas com os servidores.
+Com todo esse sistema, elevamos a confiabilidade do sistema, pois o kernel terá uma interface mais segura, sendo que terá menor quantidade de linhas e consequentemente reduzindo a taxa de possíveis bugs e evitaremos o kernel de erros de implementação devido os processos de usuários não terem acesso direto e sim por meio de comunicaçẽs entre processos (interprocess communication ou IPC)
+
+<h3> Gerenciamento de processos: </h3>
+
+Os processos no MINIX tem um modelo padrão de processos, em que estes podem criar subprocessos que por sua vez podem criar outros subprocessos, tendo assim uma árvore de processos.
+
+Para trabalhar com processos, o Minix 3 oferta duas chamadas de sistemas principais, o fork e o exec. Falando mais sobre essas duas chamadas:
+* Fork: Único modo para criar um novo processo
+* Exec: Possibilita carregar um programa num processo já criado
+
+A comunicação entre processos ocorre em três primitivas, send, receive e sendrec, sendo que cada uma recebe dois parâmetros ( um contendo o processo destino/origem e o segundo o local de memória que contém a informação da mensagem ). 
+Em relação a troca de mensagem, o MINIX 3 utiliza uma técnica chamada rendezvous. Essa técnica permite que quando um processo A envia uma mensagem para o processo B, o processo A ficará bloqueado até que o processo B recebe a mensagem, sendo desnecessário o uso de buffer para controle de mensagem, pois todas as mensagens possuem um tamanho fixo e erros de estouro de buffer são prevenidos.
+
 ## Gerenciamento de Memória
 
 ## Sistema de Arquivos

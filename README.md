@@ -308,11 +308,11 @@ Em relação aos terminais e arquivos especiais de caracteres, o nó-i de cada a
 
 ## Entrada e Saída (E/S)
 
-Uma das funções principais de um sistema operacional é controlar todos os dispositivos de entrada e saída de um computador, tratar erros, interceptar interrupções, fornecer uma interface entre o dispositivo e o sistema, emitir comandos para os dispositivos.
+Uma das principais funções de um sistema operacional é controlar dispositivos de entrada e saída em um computador, tratando erros, interceptando interrupções, fornecendo uma interface entre o dispositivo e o sistema e emitindo comandos para os dispositivos. Em geral, entradas são dados ou sinais recebidos pelo SO, e saídas são os dados ou sinais enviados por ele.
 
 <h3>Módulos de entrada e saída</h3>
 
-Um módulo de entrada e saída é a entidade dentro de um computador responsável pelo controle de um ou mais dispositivos externos e pela transferência de dados entre aqueles dispositivos e a memória principal e os registos da CPU. Assim, o módulo de E/S tem de ter uma interface interno ao computador (da CPU e a memória principal) e uma interface externa para o computador (ao dispositivo externo). As categorias principais de funções ou requisitos para um módulo de E/S caem dentro das seguintes:
+Um módulo de entrada e saída é uma entidade dentro de um computador responsável pelo controle de dispositivos externos, assim como pela transferência de dados entre tais dispositivos, a memória principal e a CPU. Assim, o módulo de E/S tem de ter uma interface interna ao computador (da CPU e da memória principal) e uma interface externa ao computador (para o dispositivo externo). As principais categorias de funções ou requisitos para um módulo de E/S são as seguintes:
 
 * Temporização e controle
 * Comunicação com o processador
@@ -320,7 +320,7 @@ Um módulo de entrada e saída é a entidade dentro de um computador responsáve
 * Armazenamento temporário dos dados
 * Detecção de erros
 
-Durante qualquer período de tempo, a CPU pode comunicar com um ou mais dispositivos externos de forma imprevisível, dependendo das necessidades de E/S. Os recursos internos, tais como, a memória principal e o barramento de sistema, têm de ser partilhados entre um certo número de atividade incluindo o processamento de informação de E/S. Assim, a função de E/S inclui um requisito de temporização e controle, para controlar o fluxo de tráfego entre os recursos internos e os dispositivos externos.<p>
+Durante qualquer período de tempo, a CPU pode se comunicar com um ou mais dispositivos externos de forma imprevisível, dependendo das necessidades da E/S. Os recursos internos, como a memória principal e o barramento de sistema, são partilhados entre um certo número de atividades incluindo o processamento de informação da E/S. Assim, a função de E/S inclui um requisito de temporização e controle, para controlar o fluxo de tráfego entre os recursos internos e os dispositivos externos. <p>
 
 <strong>A comunicação com a CPU envolve:</strong>
 
@@ -328,9 +328,9 @@ Descodificação de Comandos: O módulo de E/S aceita comandos da CPU. Estes com
 
 Dados: Os dados são trocados entre a CPU e o módulo de E/S através do barramento de dados.
 
-Relato de status: Uma vez que os periféricos são lentos, é importante saber o estado do módulo de E/S.
+Relato de status: durante a comunicação com a CPU, é importante saber o estado atual em que o módulo E/S se encontra. 
 
-Detecção de Erros: Cada dispositivo de E/S possui um endereço, tal como acontece com cada palavra na memória. Assim, um módulo de E/S tem de reconhecer um único endereço para cada periférico sobre o seu controlo. Numa outra perspectiva, o módulo de E/S tem de ser capaz de efetuar comunicação com o dispositivo. Esta comunicação envolve comandos.
+Detecção de Erros: Cada dispositivo de E/S possui um endereço, tal como acontece com cada palavra na memória. Assim, um módulo de E/S tem de reconhecer um único endereço para cada periférico sobre o seu controle. Em uma outra perspectiva, o módulo de E/S deve ser capaz de efetuar a comunicação com o dispositivo, envolvendo comandos.
 	
 <h3>Dispositivos de E/S</h3>
 
@@ -340,45 +340,45 @@ Os dispositivos de E/S podem ser divididos, genericamente, em duas categorias: d
 
 Dispositivos de blocos, são todos os dispositivos que podem enviar/transmitir dados em blocos de tamanho fixo. Um exemplo de dispositivo de bloco, é o HD.
 
-<h3>Dispositivos de caractere</h3>
+<h3>Dispositivos de Caractere</h3>
 
-O dispositivo de caractere não utiliza estrutura de blocos nem posicionamento. No dispositivo de caractere ele recebe um fluxo de caracteres, além de não ser endereçável.
+Dispositivos de caractere não utilizam estruturas de blocos nem posicionamento. No dispositivo de caractere, este recebe um fluxo de caracteres não endereçáveis. 
 
-<h3>Controladoras de Dispositivo</h3>
+<h3>Controladores de Dispositivo</h3>
 
-As unidades de E/S geralmente consistem em um componente mecânico e em outro eletrônico. É possível separar as duas partes para oferecer um projeto mais modular e genérico. Em computadores pessoais, esse frequentemente toma a forma de uma placa de circuito impresso.
+As unidades de E/S geralmente consistem em um componente mecânico e um outro eletrônico. É possível separar essas duas partes para oferecer um projeto mais modular e genérico. Em computadores pessoais, esse frequentemente toma a forma de uma placa de circuito impresso.
 
 ![](https://deinfo.uepg.br/~alunoso/2019/SO/MINIX/DISPOSITIVOS/site%20rea/barramento.png)
 
-O trabalho da controladora é converter o fluxo serial de bits em um bloco de bytes e executar qualquer correção de erro necessária. O bloco de bytes tipicamente é primeiro montado, bit por bit, em um buffer dentro da controladora. Depois que sua soma de verificação foi verificada e o bloco foi declarado livre de erros, ele pode, então, ser copiado para a memoria principal. Cada controladora tem alguns registradores que são utilizados para comunicar-se com a cpu. Em alguns computadores, esses registradores são parte do espaço normal de endereçamento de memoria. Esse esquema é chamado E/S mapeada em memoria.
+O trabalho do controlador é converter o fluxo serial de bits em um bloco de bytes e executar qualquer correção de erro necessária. O bloco de bytes tipicamente é montado, bit por bit, em um buffer dentro do controlador. Depois que sua soma de verificação foi verificada e o bloco foi declarado livre de erros, ele pode ser copiado para a memória principal. Cada controlador tem alguns registradores utilizados para a comunicação com a cpu. Em alguns computadores, esses registradores são parte do espaço normal de endereçamento de memória, e esse esquema é chamado E/S mapeada em memória. 
 
-<h3>Acesso direto a memória (DMA)</h3>
+<h3>Acesso Direto a Memória (DMA)</h3>
 
-Não importa se a CPU tem ou não E/S mapeada na memoria, ela precisa endereçar os controladores dos dispositivos para poder trocar dados com eles. A CPU pode requisitar dados de um controlador de E/S, um byte de cada vez, mas desperdiça muito tempo, de modo que um esquema diferente (DMA) seja usado.
+Não importa se a CPU tem ou não E/S mapeada na memória, mas ela precisa endereçar os controladores dos dispositivos para poder trocar dados com eles. A CPU pode requisitar dados de um controlador de E/S, um byte por vez, o que é muito mal otimizado e desperdiça muito tempo, de modo que um esquema diferente (DMA) seja usado.
 
-O controlador de DMA tem acesso ao barramento do sistema. Eles contem vários registradores que podem ser lidos ou escritos na CPU, os quais possuem registrador de endereço de memoria, registrador de controle e registrador de contador de bytes.
+O controlador de DMA tem acesso ao barramento do sistema. Eles contêm vários registradores que podem ser lidos ou escritos na CPU, os quais possuem registrador de endereço de memória, registrador de controle e registrador de contador de bytes. 
 
-O controlador lê um bloco do dispositivo, bit a bit, até que todo bloco esteja no buffer do controlador. Em seguida, ele calcula a soma de verificação, para constatar de que não houve algum erro de leitura. Então, o controlador causa uma interrupção. Quando o S.O inicia o atendimento, ele pode ler o bloco do disco a partir do buffer do controlador. Um bloco de byte ou uma palavra é lida no registrador do controlador e armazenada na memoria principal.
+O controlador lê um bloco do dispositivo, bit a bit, até que todo bloco esteja no buffer do controlador. Em seguida, ele calcula a soma de verificação, para constatar de que não houve algum erro de leitura. Então, o controlador causa uma interrupção. Quando o S.O requisita dados, ele pode ler logo o bloco do disco a partir do buffer do controlador. Um bloco de byte ou uma palavra é lida no registrador do controlador e armazenada na memória principal.
 
-<h3>Software de entrada e saída</h3>
+<h3>Software de Entrada e Saída</h3>
 
-Um conceito-chave no projeto de software de E/S é conhecido como independência de dispositivo. Isso significa que deve ser possível escrever programas que podem ler arquivos em um disquete, em um disco rígido ou em um CDROM, sem que seja necessário modificar os programas para cada tipo de dispositivo diferente. Outra questão importante para o software de E/S é o tratamento de erros. Em geral devem ser tratados o mais perto possível do hardware. Se a controladora descobrir um erro de leitura, ela devera tentar corrigir o erro se puder. Se não puder, então o driver de dispositivo devera tratá-lo, talvez tentando simplesmente ler o bloco novamente.
+Um conceito-chave no projeto de software de E/S é conhecido como independência de dispositivo. Isso significa que deve ser possível escrever programas que podem ler arquivos em um disquete, em um disco rígido ou em um CDROM, sem que seja necessário modificar os programas para cada tipo de dispositivo diferente. Outra questão importante para o software de E/S é o tratamento de erros. Em geral devem ser tratados o mais perto possível do hardware. Se a controladora descobrir um erro de leitura, ela deverá tentar corrigir o erro se puder. Se não puder, então o driver de dispositivo devera tratá-lo, talvez tentando simplesmente ler o bloco novamente. 
 
 <h3>Manipulação de interrupções</h3>
 
-Interrupções é uma realidade desagradável. Elas devem ser escondidas longe, no fundo das entranhas do sistema operacional, de modo que o mínimo possível do sistema saiba sobre elas. A melhor maneira de oculta-las é ter cada processo que inicia uma operação de E/S bloqueado ate que a E/S tenha-se completado e a interrupção tenha ocorrido. O processo pode bloquear-se fazendo um dowx em um semáforo. Um wait em uma variável de condição ou um receive em uma mensagem, por exemplo. Quando as interrupções acontecem, o procedimento de interrupção faz o que tem de fazer para desbloquear o processo que iniciou a E/S em alguns sistemas, ele fara um UP em um semáforo. Em outros, ele fara um sinal em uma variável de condição em um monitor. Em outros, ainda, ele enviara uma mensagem para o processo bloqueando. Em todos casos, o efeito geral da interrupção será que um processo que anteriormente estava bloqueado agora será capaz de executar.
+Interrupções são uma realidade desagradável. Elas devem ser escondidas longe, no fundo das entranhas do sistema operacional, de modo que o mínimo possível do sistema saiba sobre elas. A melhor maneira de oculta-las é ter cada processo que inicia uma operação de E/S bloqueado até que a E/S tenha se completado e a interrupção tenha ocorrido. O processo pode se bloquear fazendo um down em um semáforo. Um wait em uma variável de condição ou um receive em uma mensagem, por exemplo. Quando as interrupções terminam, o procedimento de interrupção desbloqueia o processo que iniciou a E/S. Em alguns sistemas, ele faz um UP em um semáforo. Em outros, ele faz um sinal em uma variável de condição em um monitor. Em outros, ainda, ele envia uma mensagem para o processo bloqueador. Em todos casos, o efeito geral da interrupção será que um processo que anteriormente estava bloqueado agora será capaz de executar.
 
 <h3>Impasses</h3>
 
-Os sistemas de computador estão repletos de recursos que podem ser utilizados apenas por um processo por vez. Ter dois processos simultaneamente gravando na impressora resulta em uma confusão. Portanto, todos os sistemas operacionais têm a capacidade de temporariamente conceder acesso exclusivo a certo recursos para um processo.
+Os sistemas de computador estão repletos de recursos que podem ser utilizados apenas por um processo por vez. Ter dois processos simultaneamente gravando na impressora resulta em uma confusão. Portanto, todos os sistemas operacionais têm a capacidade de temporariamente conceder acesso exclusivo a certos recursos para um único processo. 
 
 <h3>Recursos</h3>
 
-dispositivos, a arquivos, etc. Os recursos dividem-se em dois tipos: preemptivel e não preempetivel. Um recurso preempetivel é aquele que pode ser tirado do processo que é proprietário dele sem nenhum problema. A memoria é um exemplo de um recurso preemptivel.
+Os recursos dividem-se em dois tipos: preemptivo e não preemptivo. Um recurso preemptivo é aquele que pode ser tirado de um processo sem causar nenhum problema, enquanto os não preemptivos não podem ser removidos do processo, pois causam prejuízo. A memória é um exemplo de um recurso preemptivo e uma CD-ROM é um exemplo de recurso não preemptivo. 
 
-<h3>Entrada e saída MINIX</h3>
+<h3>Entrada e Saída MINIX</h3>
 
-No Minix, drivers de entrada e saída são feitos com passagem de mensagens, de forma que rodem em modo usuário e se comuniquem com o kernel. Isso garante que um driver tenha limites quanto ao que pode fazer e aumente a estabilidade do sistema.
+No MINIX, drivers de entrada e saída são feitos com passagem de mensagens, de forma que rodem em modo usuário e se comuniquem com o kernel. Isso garante que um driver tenha limites quanto ao que pode fazer e aumente a estabilidade do sistema.
 
 
 ## Referências

@@ -256,6 +256,32 @@ Dentro das filas o algoritmo de alternância obrigatória é utilizado, com uma 
 
 ## Gerenciamento de Memória
 
+<p>O Gerenciador de Memória (GM) tem como função manter o controle de quais partes da memória estão em uso e quais partes não estão em uso, alocar e desalocar memória no ciclo de execução de processos, e gerenciar a troca entre memória principal e disco quando a memória é insuficiente para armazenar todos os processos. Na maioria dos sistemas (mas não no MINIX 3) o GM está no kernel.</p>
+
+<p>Os sistemas de gerenciamento de memória podem ser divididos em duas classes: aqueles que movem processos entre a memória principal e o disco durante a execução (Swapping e Paging) e aqueles que não o fazem. No MINIX 3, o GM se encontra na última categoria citada, não sendo utilizado, por padrão, Swapping e Paging. No entanto, em contextos em que a memória física de um sistema seja limitada ao ponto de ser incapaz de armazenar os processos em memória, o Swapping pode ser ativado diretamento no código fonte do Minix 3.</p>
+
+<h3>Gerenciador de Processos no Gerenciamento de Memória</h3>
+
+<p>O Gerenciador de Processos (GP) lida com as chamadas de sistema relacionadas ao gerenciamento de processos. Destes, alguns estão intimamente envolvidos com o gerenciamento de memória. As chamadas fork, exec e brk estão nesta categoria. O GP mantém uma lista de lacunas classificadas em ordem numérica de endereço de memória. Quando a memória é necessária, seja devido a um fork ou a uma chamada de sistema exec, ocorre a pesquisa na lista de lacunas, utilizando o algoritmo "First Fit", por uma lacuna grande o suficiente capaz de comportar o novo processo. Um processo que é colocado na memória permanece exatamente no mesmo lugar durante toda a sua execução - o processo nunca é movido para outro lugar na memória, tampouco sua área de memória alocada cresce ou diminui.</p>
+
+<p>Outra característica que faz a implementação do gerenciamento de memória no MINIX 3 diferir de muitos outros sistemas operacionais é o fato do Gerenciador de Processos não fazer parte do kernel. Em vez disso, o GP é um processo que é executado no espaço do usuário (camada Servers) e se comunica com o kernel pelo mecanismo de mensagem padrão. A propriedade de mover GP para fora do kernel é um exemplo da separação entre política e mecanismo. As decisões sobre qual processo e onde um processo será colocado na memória (política) são feitas pelo GP. A configuração real dos mapas de memória para processos (mecanismo), por sua vez, é feita pela tarefa do sistema dentro do kernel. Essa divisão torna relativamente fácil alterar a política de gerenciamento de memória (algoritmos, etc.) sem ter que modificar as camadas mais baixas do sistema operacional.</p>
+
+<h3>Layout da Memória</h3>
+
+<p>No MINIX 3, os programas podem ser compilados para usar o espaço I (texto) e D (dados e pilha) separados, fazendo uso da memória de maneira mais eficiente porém com maior complexidade quando comparado a versão original do MINIX, que usavam o espaço I e D combinado em que todas as partes do processo (texto, dados e pilha) compartilham um bloco de memória que é alocado e liberado como um bloco.</p>
+
+<h4>Alocação de Memória</h4>
+
+<p>No MINIX 3, a alocação de memória ocorre apenas em dois momentos:</p>
+
+* Execução de fork()
+
+<p>Faz uma cópia do processo que chama esta system call em uma das lacunas disponíveis. Para isto, chama a função de alocação de memória.</p>
+
+* Execução de exec()
+
+<p>Substitui a imagem de um processo por outra imagem. Devido à diferença de tamanho entre as imagens, a imagem atual é retirada da memória e então uma nova parcela de memória é alocada para a nova imagem.</p>
+
 ## Sistema de Arquivos
 
 Um processo executando armazena informações, porém esta informação é perdida quando o processo termina. Assim, a gravação destas informações na forma de arquivos garante que elas possam ser lidas e utilizadas posteriormente por outros processos. Ou seja, os arquivos são uma forma de armazenar as informações em disco, para utilização futura.

@@ -268,7 +268,10 @@ Dentro das filas o algoritmo de alternância obrigatória é utilizado, com uma 
 
 <h3>Layout da Memória</h3>
 
-<p>No MINIX 3, os programas podem ser compilados para usar o espaço I (texto) e D (dados e pilha) separados, fazendo uso da memória de maneira mais eficiente porém com maior complexidade quando comparado a versão original do MINIX, que usavam o espaço I e D combinado em que todas as partes do processo (texto, dados e pilha) compartilham um bloco de memória que é alocado e liberado como um bloco.</p>
+<p>No MINIX 3, os programas podem ser compilados para usar o espaço I (texto) e D (dados e pilha) separados, fazendo uso da memória de maneira mais eficiente e com maior complexidade quando comparado a versão original do MINIX, que usava os espaços I e D combinados em que todas as partes do processo (texto, dados e pilha) compartilham um bloco de memória que é alocado e liberado como um bloco.</p>
+
+<p>Programas com espaço I e D separados aproveitam um modo aprimorado de gerenciamento de memória chamado shared text (texto compartilhado). Quando tal processo faz um fork, apenas a quantidade de memória necessária para uma cópia dos dados e da pilha do novo processo é alocada. Tanto o pai quanto o filho compartilham o código executável já em uso pelo pai. Quando esse processo executa um exec, a tabela de processos é pesquisada para ver se outro processo já está usando o código executável necessário. Se um for encontrado, a nova memória será alocada apenas para os dados e a pilha, e o texto já na memória será compartilhado.</p>
+<p>O texto compartilhado, por outro lado, aumenta a complexidade no término de um processo. Quando um processo termina, esse sempre libera a memória ocupada por seus dados e pilha. Entretanto, um processo só libera a memória ocupada por seu segmento de texto depois que uma pesquisa na tabela de processos revelar que nenhum outro processo atual está compartilhando essa memória. Dessa forma, quando um processo termina esse pode não liberar toda a memória alocada a ele no início de sua execução.</p>
 
 <h4>Alocação de Memória</h4>
 
@@ -276,11 +279,17 @@ Dentro das filas o algoritmo de alternância obrigatória é utilizado, com uma 
 
 * Execução de fork()
 
-<p>Faz uma cópia do processo que chama esta system call em uma das lacunas disponíveis. Para isto, chama a função de alocação de memória.</p>
+<p>Faz uma cópia do processo que chama esta system call em uma das lacunas disponíveis; a quantidade de memória necessária para o filho é alocada. Para isto, chama a função de alocação de memória.</p>
 
 * Execução de exec()
 
 <p>Substitui a imagem de um processo por outra imagem. Devido à diferença de tamanho entre as imagens, a imagem atual é retirada da memória e então uma nova parcela de memória é alocada para a nova imagem.</p>
+
+<p>A memória também é liberada sempre que um processo termina, seja completando sua execução ou sendo morto por um sinal.</p>
+
+| ![](https://flylib.com/books/3/275/1/html/2/images/04fig30.jpg) |
+|:--:| 
+| Exemplo de alocação de memória para processo com espaços I e D combinados. (a) Originalmente. (b) Depois do fork. (c) Depois do filho chamar exec. As regiões sombreadas representam memória não utilizada |
 
 ## Sistema de Arquivos
 

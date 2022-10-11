@@ -48,6 +48,9 @@ Normalmente, a fila 0 é referente a processos relacionados ao kernel. Da fila 1
 
 No MINIX 3 temos o escalonador tanto em espaço de usuário quanto em espaço de núcleo. Na imagem a seguir, temos algumas pastas onde estão localizadas as funcionalidades referente a cada espaço.
 
+<h1></h1>
+
+### Escalonador Usuário
 ![Captura de tela de 2022-10-08 12-40-22](https://user-images.githubusercontent.com/78819692/195197343-185bcd3e-8008-497b-bdfa-0eae2c918ec5.png)
 
 - No espaço de usuário, teremos funções voltadas à prioridade das filas, que como dito anteriormente, é informado que o processo realizou seu quantum, então é feito o decréscimo na prioridade desse processo. Esse espaço de usuário contém também a função de balanceamento, onde a cada tempo de CLOCK definido pelo MINIX, é feito o rebalanceamento entre as filas.
@@ -57,6 +60,10 @@ No MINIX 3 temos o escalonador tanto em espaço de usuário quanto em espaço de
  [Função do_quantum](https://github.com/leonardo8787/minix-1-documentation/blob/master/minix/servers/sched/schedule.c#L87)  : Função referente ao decrescimo da prioridade do processo após recebé-lo do escalonador no espaço de kernel depois que o processo realiza o seu quantum.
  
  [Função balance_queues](https://github.com/leonardo8787/minix-1-documentation/blob/master/minix/servers/sched/schedule.c#L353) : Função que [a cada clock definido pelo sistema operacional](https://github.com/leonardo8787/minix-1-documentation/blob/master/minix/servers/sched/main.c#L47) irá rebalancear todos os processos.
+
+<h1></h1>
+
+### Escalonador Usuário
 
 ![Captura de tela de 2022-10-08 12-39-52](https://user-images.githubusercontent.com/78819692/195197474-fa88105e-0082-49e5-a42c-c53536009442.png)
 

@@ -13,14 +13,14 @@ incluindo a compilação do kernel e a virtualização da ISO gerada no processo
 
 <h2>Processos</h2>
 
-É inivitável falar sobre processos quando estamos tratando sobre escalonamento, há uma convergência nos assuntos, visto que os processos são uma sombra dos escalonadores. Tendo isso em vista é hora de discertar sobre o que é um processo e como o sistema operacional MINIX 3 gerencia os seus processos, para que possamos 
+É inivitável falar sobre processos quando estamos tratando sobre escalonamento, há uma convergência nos assuntos, visto que os processos são uma sombra dos escalonadores. Tendo isso em vista é hora de dissertar sobre o que é um processo e como o sistema operacional MINIX 3 gerencia os seus processos, para que possamos 
 adentrar nos escalonadores. 
 
 <h2>Organização Estrutural</h2>
 
 <h3> Design Inteligente </h3> 
  
-O MINIX utiliza um design inteligente, dentro do nicho de Sistemas Operacionais, que utiliza como base um Microkernel com 15.000 linhas de código (para comparação, o Kernel do LINUX possui mais de 15 milhões de linhas). Existe uma estimativa de que a cada 1000 linhas de código um a dez bugs podem aparecer, alguns sendo menos sérios como erros de gramática em mensagens, mas drivers possuem a estimativa de terem entre 3 a 7 vezes mais bugs do que o resto kernel, e 70% do código são drivers. 
+O MINIX utiliza um design inteligente, dentro do nicho de Sistemas Operacionais, que utiliza como base um Microkernel com 15.000 linhas de código (para comparação, o Kernel do LINUX possui mais de 15 milhões de linhas). Existe uma estimativa de que a cada 1000 linhas de código um a dez bugs podem aparecer, alguns sendo menos sérios como erros de gramática em mensagens. Drivers, por outro lado, possuem a estimativa de terem entre 3 a 7 vezes mais bugs do que o resto kernel, e 70% do código são drivers. 
  
 O MINIX também é altamente modular, o que significa que algumas partes do núcleo do sistema estão em pastas diferentes e independentes, que podem ser chamadas e adicionadas ao sistema durante a execução do mesmo. 
  

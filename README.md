@@ -44,9 +44,13 @@ Por fim, a quarta camada diz respeito aos processos de usuário como shells, edi
 
 O escalonamento do MINIX 3 é uma união entre múltiplas filas de prioridades sendo que em cada fila é usada a política do Round-Robin. O nível de prioridade da fila é da ordem da menor fila ter a mais alta prioridade ( nível 0) e a maior fila ter a menor prioridade (nível 15).
 
-Normalmente, a fila 0 é referente a processos relacionados ao kernel. Da fila 1 até a fila 4 temos algumas tarefas do sistema e drivers. As filas de prioridade 7 até a 14 é destinada para tarefas de usuários. Por último e de menor prioridade, a fila 15 é responsável pelos processos de Idle ( “Processos vazios”, no qual quando não há nenhum processo para ser executado, enviamos um processo [idle](https://github.com/leonardo8787/minix-1-documentation/blob/master/minix/kernel/proc.c#L45) para que o sistema operacional continue mantendo mapeada a arquitetura da máquina).
+Normalmente, a fila 0 é referente a processos relacionados ao kernel. Da fila 1 até a fila 4 temos algumas tarefas do sistema e drivers. As filas de prioridade 7 até a 14 é destinada para tarefas de usuários. Por último e de menor prioridade, a fila 15 é responsável pelos processos de [idle](https://github.com/leonardo8787/minix-1-documentation/blob/master/minix/kernel/proc.c#L45) ( “Processos vazios”, no qual quando não há nenhum processo para ser executado, enviamos um processo idle para que o sistema operacional continue mantendo mapeada a arquitetura da máquina).
 
 No MINIX 3 temos o escalonador tanto em espaço de usuário quanto em espaço de núcleo. Na imagem a seguir, temos algumas pastas onde estão localizadas as funcionalidades referente a cada espaço.
+
+![Captura de tela de 2022-10-08 12-40-22](https://user-images.githubusercontent.com/78819692/195197343-185bcd3e-8008-497b-bdfa-0eae2c918ec5.png)
+
+![Captura de tela de 2022-10-08 12-40-22](https://user-images.githubusercontent.com/78819692/195197358-eac27e36-36a6-417e-9596-416c587aa5a3.png)
 
 No espaço de núcleo, teremos funções responsáveis por gerenciar as filas individualmente, sendo onde ocorre o processo de enfileiramento e desenfileiramento dos processos, e a comunicação com o escalonador no espaço de usuário, como por exemplo o aviso de quando um processo realizou o seu quantum. 
 No espaço de usuário, teremos funções voltadas à prioridade das filas, que como dito anteriormente, é informado que o processo realizou seu quantum, então é feito o decréscimo na prioridade desse processo. Esse espaço de usuário contém também a função de balanceamento, onde a cada tempo de CLOCK definido pelo MINIX, é feito o rebalanceamento entre as filas.

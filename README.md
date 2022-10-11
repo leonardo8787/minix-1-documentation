@@ -50,9 +50,9 @@ No MINIX 3 temos o escalonador tanto em espaço de usuário quanto em espaço de
 
 ### Definições importantes:
 
-[Define sobre a quantidade de filas de prioridade](https://github.com/leonardo8787/minix-1-documentation/blob/master/minix/include/minix/config.h#L66)
+[Definição sobre a quantidade de filas de prioridade](https://github.com/leonardo8787/minix-1-documentation/blob/master/minix/include/minix/config.h#L66)
 
-[Define sobre o quantum](https://github.com/leonardo8787/minix-1-documentation/blob/master/minix/include/minix/config.h#L74)
+[Definição sobre o quantum](https://github.com/leonardo8787/minix-1-documentation/blob/master/minix/include/minix/config.h#L74)
 
 
 <h1></h1>

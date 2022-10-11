@@ -50,11 +50,11 @@ No MINIX 3 temos o escalonador tanto em espaço de usuário quanto em espaço de
 
 ![Captura de tela de 2022-10-08 12-40-22](https://user-images.githubusercontent.com/78819692/195197343-185bcd3e-8008-497b-bdfa-0eae2c918ec5.png)
 
-![Captura de tela de 2022-10-08 12-40-22](https://user-images.githubusercontent.com/78819692/195197358-eac27e36-36a6-417e-9596-416c587aa5a3.png)
+- No espaço de usuário, teremos funções voltadas à prioridade das filas, que como dito anteriormente, é informado que o processo realizou seu quantum, então é feito o decréscimo na prioridade desse processo. Esse espaço de usuário contém também a função de balanceamento, onde a cada tempo de CLOCK definido pelo MINIX, é feito o rebalanceamento entre as filas.
 
-No espaço de núcleo, teremos funções responsáveis por gerenciar as filas individualmente, sendo onde ocorre o processo de enfileiramento e desenfileiramento dos processos, e a comunicação com o escalonador no espaço de usuário, como por exemplo o aviso de quando um processo realizou o seu quantum. 
-No espaço de usuário, teremos funções voltadas à prioridade das filas, que como dito anteriormente, é informado que o processo realizou seu quantum, então é feito o decréscimo na prioridade desse processo. Esse espaço de usuário contém também a função de balanceamento, onde a cada tempo de CLOCK definido pelo MINIX, é feito o rebalanceamento entre as filas.
- 	
+![Captura de tela de 2022-10-08 12-39-52](https://user-images.githubusercontent.com/78819692/195197474-fa88105e-0082-49e5-a42c-c53536009442.png)
+
+- No espaço de núcleo, teremos funções responsáveis por gerenciar as filas individualmente, sendo onde ocorre o processo de enfileiramento e desenfileiramento dos processos, e a comunicação com o escalonador no espaço de usuário, como por exemplo o aviso de quando um processo realizou o seu quantum. 
 
 
 <h2>Política</h2>

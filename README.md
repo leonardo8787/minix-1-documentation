@@ -4,7 +4,10 @@ Escalonamento | MINIX 3 <p>
 </h3>
 
 <h1></h1>
+
 [Wiki](https://github.com/leonardo8787/minix-1-documentation/wiki) 
+
+
 <h1></h1>
 
 * Sobre

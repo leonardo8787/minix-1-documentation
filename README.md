@@ -28,9 +28,11 @@ incluindo a compilação do kernel e a virtualização da ISO gerada no processo
 
 ## Referências
 
+[Documentação Oficial](http://minix3.org/doc/) [1]
 * http://minix3.org/doc/ (documentação oficial) [1]
-* https://deinfo.uepg.br/~alunoso/2019/SO/MINIX/DISPOSITIVOS/site%20rea/#:~:text=Entrada%20e%20saida%20minix%20No%20Minix%2C%20drivers%20de,pode%20fazer%20e%20aumente%20a%20estabilidade%20do%20sistema. [2]
-	
+
+[Gerenciador de Dispositivos | UEPG](https://deinfo.uepg.br/~alunoso/2019/SO/MINIX/DISPOSITIVOS/site%20rea/#:~:text=Entrada%20e%20saida%20minix%20No%20Minix%2C%20drivers%20de,pode%20fazer%20e%20aumente%20a%20estabilidade%20do%20sistema) [2]
+
 #### Autores
 	
 - Gabriel Henrique Silva Gontijo

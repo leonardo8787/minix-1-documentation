@@ -1,7 +1,8 @@
 <h4 align="center">	
   Esse projeto é focado em escalonamento, política e usabilidade do MINIX 3 ...<p>
   Para ter acesso a nossa documentação completa acesse o Wiki neste repositório <p>
-  Código do MINIX: https://github.com/Stichting-MINIX-Research-Foundation/minix<p>
+	[ Código do MINIX]([http://minix3.org/doc/](https://github.com/Stichting-MINIX-Research-Foundation/minix)) [1]
+
 </h4>
 <h1></h1>
 

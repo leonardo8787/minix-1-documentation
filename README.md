@@ -44,7 +44,7 @@ Por fim, a quarta camada diz respeito aos processos de usuário como shells, edi
 
 O escalonamento do MINIX 3 é uma união entre múltiplas filas de prioridades sendo que em cada fila é usada a política do Round-Robin. O nível de prioridade da fila é da ordem da menor fila ter a mais alta prioridade ( nível 0) e a maior fila ter a menor prioridade (nível 15).
 
-Normalmente, a fila 0 é referente a processos relacionados ao kernel. Da fila 1 até a fila 4 temos algumas tarefas do sistema e drivers. As filas de prioridade 7 até a 14 é destinada para tarefas de usuários. Por último e de menor prioridade, a fila 15 é responsável pelos processos de Idle ( “Processos vazios”, no qual quando não há nenhum processo para ser executado, enviamos um processo [idle](minix-1-documentation/proc.c at master · leonardo8787/minix-1-documentation (github.com)) para que o sistema operacional continue mantendo mapeada a arquitetura da máquina).
+Normalmente, a fila 0 é referente a processos relacionados ao kernel. Da fila 1 até a fila 4 temos algumas tarefas do sistema e drivers. As filas de prioridade 7 até a 14 é destinada para tarefas de usuários. Por último e de menor prioridade, a fila 15 é responsável pelos processos de Idle ( “Processos vazios”, no qual quando não há nenhum processo para ser executado, enviamos um processo [idle](https://github.com/leonardo8787/minix-1-documentation/blob/master/minix/kernel/proc.c#L45) para que o sistema operacional continue mantendo mapeada a arquitetura da máquina).
 
 No MINIX 3 temos o escalonador tanto em espaço de usuário quanto em espaço de núcleo. Na imagem a seguir, temos algumas pastas onde estão localizadas as funcionalidades referente a cada espaço.
 

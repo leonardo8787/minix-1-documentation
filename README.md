@@ -5,8 +5,6 @@ Escalonamento | MINIX 3 <p>
 
 <h1></h1>
 [Wiki](https://github.com/leonardo8787/minix-1-documentation/wiki) 
-
-- Documentação referente ao Sistema Operacional Minix 3
 <h1></h1>
 
 * Sobre

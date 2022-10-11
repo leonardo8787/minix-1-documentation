@@ -1,7 +1,7 @@
 <h4 align="center">	
   Esse projeto é focado em escalonamento, política e usabilidade do MINIX 3 ...<p>
   Para ter acesso a nossa documentação completa acesse o Wiki neste repositório <p>
-	[Código do MINIX](https://github.com/Stichting-MINIX-Research-Foundation/minix) [1]
+	
 
 </h4>
 <h1></h1>
@@ -32,6 +32,8 @@ incluindo a compilação do kernel e a virtualização da ISO gerada no processo
 [Documentação Oficial](http://minix3.org/doc/) [1]
 
 [Gerenciador de Dispositivos | UEPG](https://deinfo.uepg.br/~alunoso/2019/SO/MINIX/DISPOSITIVOS/site%20rea/#:~:text=Entrada%20e%20saida%20minix%20No%20Minix%2C%20drivers%20de,pode%20fazer%20e%20aumente%20a%20estabilidade%20do%20sistema) [2]
+
+[Código do MINIX](https://github.com/Stichting-MINIX-Research-Foundation/minix) [3]
 
 #### Autores
 	

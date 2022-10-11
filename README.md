@@ -14,9 +14,15 @@ incluindo a compilação do kernel e a virtualização da ISO gerada no processo
 <h2>Processos</h2>
 
 É inivitável falar sobre processos quando estamos tratando sobre escalonamento, há uma convergência nos assuntos, visto que os processos são uma sombra dos escalonadores. Tendo isso em vista é hora de dissertar sobre o que é um processo e como o sistema operacional MINIX 3 gerencia os seus processos, para que possamos 
-adentrar nos escalonadores. 
+adentrar nos escalonadores. O sistema operacional MINIX 3 gerencia seus processos através de uma árvore, assim tendo processos filhos, os quais carregam as informações dos processos pais, assim o sistema distribui seus processos de forma que se um deles morrer outras vertentes da árvore, que não estavam conectadas ao processo morto, não morram junto.
 
-<h2>Organização Estrutural</h2>
+<h2>Exemplo de processo em Minix 3</h2>
+
+O exemplo adotado é a inicialização do sistema operacional, ela retrata bem o funcionamento dos processos em Minix 3. Primeiramente, ao inicializar o sistema executará o script/etc/rc para buscar por drivers e servidores. Logo em seguida os drivers e servidores encontrados tornan-se filhos do servidor de inicialização, tendo este processo concluido, o sistema lê a /etc/ttytab para ver quais terminais e terminais virtuais existem na máquina, depois o init bifurca o processo getty, o getty executa um processo de login executando o shell do usuário. Nessa sucessão de acontecimentos é possível ver que o shell é filho do init e neto do inicializador. 
+
+<h2>Implementação do Processo</h2>
+
+Os processos são armazenados em tabelas de processos no MINIX 3, essas tabelas guardam informações desses processos, informações do tipo: Estado do processo, Contador de programa, Ponteiro de pilha, alocação de memória, status de arquivos abertos, informações de confiabilidade, alarmes e outros sinais. Essas tabelas de processos são divididas em 3 sub áreas, que são: Kernel, gerenciamento de processos e por fim gerenciamento de arquivos.
 
 <h3> Design Inteligente </h3> 
  

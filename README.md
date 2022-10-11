@@ -76,6 +76,13 @@ No MINIX 3 temos o escalonador tanto em espaço de usuário quanto em espaço de
 
 - No espaço de núcleo, teremos funções responsáveis por gerenciar as filas individualmente, sendo onde ocorre o processo de enfileiramento e desenfileiramento dos processos, e a comunicação com o escalonador no espaço de usuário, como por exemplo o aviso de quando um processo realizou o seu quantum. 
 
+### Algumas funções do escalonador no espaço de núcleo:
+
+[enqueue de processos](https://github.com/leonardo8787/minix-1-documentation/blob/master/minix/kernel/proc.c#L1595) : Função responsável por enfileirar os processos dentro da fila
+
+[dequeue de processos](https://github.com/leonardo8787/minix-1-documentation/blob/master/minix/kernel/proc.c#L1716) : Função responsável por desenfileirar os processos.
+
+[Função pick_proc](https://github.com/leonardo8787/minix-1-documentation/blob/master/minix/kernel/proc.c#L1785) : Essa função seleciona qual o processo dentro da fila que será executado.
 
 <h1></h1>
 

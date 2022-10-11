@@ -7,8 +7,6 @@ Escalonamento | MINIX 3 <p>
 
 [Wiki](https://github.com/leonardo8787/minix-1-documentation/wiki) 
 
-<h2>Sobre</h2>
-
 Neste repositório iremos dicertar sobre escalonamento, política e usabilidade nos processos do sistema operacional MINIX 3, desenvolvido pelo professor Tanembaum.
 Também iremos falar sobre o mudança na política do sistema além de abrir "issues" falando mais detalhadamente sobre cada processo ao qual fomos submetidos a erros
 incluindo a compilação do kernel e a virtualização da ISO gerada no processo. Este repositório tem fins acadêmicos e foi produzido para comunidade do CEFET/MG.

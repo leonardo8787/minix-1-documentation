@@ -11,6 +11,11 @@ Neste repositório iremos dicertar sobre escalonamento, política e usabilidade 
 Também iremos falar sobre o mudança na política do sistema além de abrir "issues" falando mais detalhadamente sobre cada processo ao qual fomos submetidos a erros
 incluindo a compilação do kernel e a virtualização da ISO gerada no processo. Este repositório tem fins acadêmicos e foi produzido para comunidade do CEFET/MG.
 
+<h2>Processos</h2>
+
+É inivitável falar sobre processos quando estamos tratando sobre escalonamento, há uma convergência nos assuntos, visto que os processos são uma sombra dos escalonadores. Tendo isso em vista é hora de discertar sobre o que é um processo e como o sistema operacional MINIX 3 gerencia os seus processos, para que possamos 
+adentrar nos escalonadores. 
+
 <h2>Escalonamento</h2>
 
 <h2>Política</h2>

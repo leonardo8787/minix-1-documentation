@@ -48,6 +48,13 @@ Normalmente, a fila 0 é referente a processos relacionados ao kernel. Da fila 1
 
 No MINIX 3 temos o escalonador tanto em espaço de usuário quanto em espaço de núcleo. Na imagem a seguir, temos algumas pastas onde estão localizadas as funcionalidades referente a cada espaço.
 
+### Definições importantes:
+
+[Define sobre q quantidade de filas de prioridade](https://github.com/leonardo8787/minix-1-documentation/blob/master/minix/include/minix/config.h#L66)
+
+[Define sobre o quantum](https://github.com/leonardo8787/minix-1-documentation/blob/master/minix/include/minix/config.h#L74)
+
+
 <h1></h1>
 
 ### Escalonador Usuário

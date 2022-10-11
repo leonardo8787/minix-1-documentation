@@ -57,8 +57,6 @@ No MINIX 3 temos o escalonador tanto em espaço de usuário quanto em espaço de
 - No espaço de núcleo, teremos funções responsáveis por gerenciar as filas individualmente, sendo onde ocorre o processo de enfileiramento e desenfileiramento dos processos, e a comunicação com o escalonador no espaço de usuário, como por exemplo o aviso de quando um processo realizou o seu quantum. 
 
 
-<h2>Política</h2>
-
 <h1></h1>
 
 ## Referências

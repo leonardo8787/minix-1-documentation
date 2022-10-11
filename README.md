@@ -13,7 +13,7 @@ incluindo a compilação do kernel e a virtualização da ISO gerada no processo
 
 <h2>Processos</h2>
 
-É inivitável falar sobre processos quando estamos tratando sobre escalonamento, há uma convergência nos assuntos, visto que os processos são uma sombra dos escalonadores. Tendo isso em vista é hora de dissertar sobre o que é um processo e como o sistema operacional MINIX 3 gerencia os seus processos, para que possamos 
+É inevitável falar sobre processos quando estamos tratando sobre escalonamento, há uma convergência nos assuntos, visto que os processos são uma sombra dos escalonadores. Tendo isso em vista é hora de dissertar sobre o que é um processo e como o sistema operacional MINIX 3 gerencia os seus processos, para que possamos 
 adentrar nos escalonadores. O sistema operacional MINIX 3 gerencia seus processos através de uma árvore, assim tendo processos filhos, os quais carregam as informações dos processos pais, assim o sistema distribui seus processos de forma que se um deles morrer outras vertentes da árvore, que não estavam conectadas ao processo morto, não morram junto.
 
 <h2>Exemplo de processo em Minix 3</h2>

@@ -3,9 +3,9 @@ Escalonamento | MINIX 3 <p>
 
 </h3>
 
-<h1></h1>
+<h1></h1> 
 
-[Wiki](https://github.com/leonardo8787/minix-1-documentation/wiki) 
+Documentação sobre o sistema operacional Minix 3 [Wiki :scroll:](https://github.com/leonardo8787/minix-1-documentation/wiki) 
 
 Neste repositório iremos dicertar sobre escalonamento, política e usabilidade nos processos do sistema operacional MINIX 3, desenvolvido pelo professor Tanembaum.
 Também iremos falar sobre o mudança na política do sistema além de abrir "issues" falando mais detalhadamente sobre cada processo ao qual fomos submetidos a erros
